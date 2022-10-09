@@ -9,6 +9,8 @@
   --main-font: "Roboto", sans-serif;
   --primary-transition-time: 250ms;
   --primary-cubic-function: cubic-bezier(0.4, 0, 0.2, 1);
+  --backdrop: rgba(0, 0, 0, 0.2);
+  --overlay: rgba(33, 150, 243, 0.9);
 }
 
 p,
@@ -109,7 +111,8 @@ body {
 }
 
 .filter-btn:focus,
-.filter-btn:hover {
+.filter-btn:hover,
+.filter-btn.current {
   box-shadow: 0px 3px 1px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.08),
     0px 2px 2px rgba(0, 0, 0, 0.12);
   background-color: var(--accent-color);
@@ -122,7 +125,6 @@ body {
 /*-------------------------- HEADER --------------------------*/
 
 .header {
-  /* padding: 24px 0 25px 0; */
   border: 1px solid #ececec;
 }
 
@@ -168,6 +170,7 @@ body {
 }
 
 .header-item {
+  position: relative;
   font-weight: 500;
   line-height: 1.14;
   letter-spacing: 0.02em;
@@ -188,6 +191,19 @@ body {
 
 .header-list .current {
   color: var(--accent-color);
+}
+
+.header-link.current::after {
+  content: "";
+  display: block;
+  position: absolute;
+  bottom: 0;
+
+  width: 100%;
+  height: 4px;
+
+  background-color: var(--accent-color);
+  border-radius: 2px;
 }
 
 .contacts-item .header-link {
@@ -223,6 +239,12 @@ body {
   color: var(--main-color-light);
   max-width: 696px;
   margin: 0 auto 30px;
+}
+
+.hero-title::after {
+  width: 10px;
+  height: 10px;
+  background-color: red;
 }
 
 .hero-btn {
@@ -296,13 +318,20 @@ body {
 }
 
 .sevrices-description {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   position: absolute;
-  /* bottom: 0; */
+  bottom: 0;
+  width: 100%;
+  height: 70px;
+
+  background-color: rgba(47, 48, 58, 0.8);
 
   font-weight: 700;
   font-size: 14px;
   line-height: 1.14;
-  text-align: center;
   letter-spacing: 0.03em;
   color: var(--main-color-light);
   text-transform: uppercase;
@@ -429,6 +458,14 @@ body {
   margin-bottom: 9px;
 }
 
+.footer-item .link {
+  transition: color var(--primary-transition-time) var(--primary-cubic-function);
+}
+
+.footer-item .link:hover {
+  color: var(--accent-color);
+}
+
 .footer-address {
   font-style: normal;
   line-height: 1.71;
@@ -490,6 +527,69 @@ body {
   height: 20;
 }
 
+/*-------------------------- MODAL --------------------------*/
+
+.backdrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+
+  transition: opacity var(--primary-transition-time)
+    var(--primary-cubic-function);
+
+  background: var(--backdrop);
+}
+
+.backdrop.is-hidden {
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.modal {
+  display: flex;
+  justify-content: flex-end;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+
+  transform: translate(-50%, -50%);
+
+  min-width: 528px;
+  min-height: 581px;
+
+  padding: 8px;
+
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.12), 0px 1px 1px rgba(0, 0, 0, 0.14),
+    0px 2px 1px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  background-color: var(--main-color-light);
+}
+
+.modal-button {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 30px;
+  height: 30px;
+
+  transition: fill 250ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+
+  cursor: pointer;
+  background-color: transparent;
+}
+
+.modal-button:hover {
+  fill: var(--accent-color);
+}
+
 /*-------------------------- PORTFOLIO --------------------------*/
 
 .filter-btn-list {
@@ -507,7 +607,9 @@ body {
 
 .portfolio-item {
   width: calc((100% - 60px) / 3);
+
   border: 1px solid #eeeeee;
+
   transition: box-shadow var(--primary-transition-time)
     var(--primary-cubic-function);
 }
@@ -518,6 +620,52 @@ body {
 
 .portfolio-content {
   padding: 20px 24px;
+}
+
+.portfolio-thumb {
+  position: relative;
+
+  overflow: hidden;
+}
+
+.portfolio-overlay {
+  content: "";
+  display: block;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+
+  transform: translateY(100%);
+  transition: transform var(--primary-transition-time)
+    var(--primary-cubic-function);
+
+  opacity: 0;
+
+  background-color: var(--overlay);
+}
+
+.portfolio-item:hover .portfolio-overlay {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.overlay-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 322px;
+  height: 168px;
+
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 28px;
+  letter-spacing: 0.03em;
+  color: var(--main-color-light);
 }
 
 .portfolio-title {
