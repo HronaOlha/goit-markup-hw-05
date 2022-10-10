@@ -639,7 +639,8 @@ body {
 
   transform: translateY(100%);
   transition: transform var(--primary-transition-time)
-    var(--primary-cubic-function);
+      var(--primary-cubic-function),
+    opasity var(--primary-transition-time) var(--primary-cubic-function);
 
   opacity: 0;
 
